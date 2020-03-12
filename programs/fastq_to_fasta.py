@@ -27,7 +27,6 @@ if len(sys.argv) != 3:
 with open (sys.argv[1], 'r') as fastq, open (sys.argv[2], 'w') as fasta:
     fastq_read = fastq.readlines()
     for no, line in enumerate(fastq_read):
-        line = line.rstrip()
         if no % 4 == 0:
             id_line = line.replace('@', '>', 1) #replace only first occurrance
             fasta.write(id_line)
