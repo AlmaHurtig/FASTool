@@ -63,10 +63,10 @@ def gc_counts(fasta):
                     GC3['gc'] += 1
                 elif letter in 'AT':
                     GC3['at'] += 1
-    GC = round(100 * gc_c / (gc_c + at_c))
-    GC1_tot = round(100 * GC1['gc'] / (GC1['gc'] + GC1['at']))
-    GC2_tot = round(100 * GC2['gc'] / (GC2['gc'] + GC2['at']))
-    GC3_tot = round(100 * GC3['gc'] / (GC3['gc'] + GC3['at']))
+    GC = round((100 * gc_c / (gc_c + at_c)),2)
+    GC1_tot = round((100 * GC1['gc'] / (GC1['gc'] + GC1['at'])),2)
+    GC2_tot = round((100 * GC2['gc'] / (GC2['gc'] + GC2['at'])),2)
+    GC3_tot = round((100 * GC3['gc'] / (GC3['gc'] + GC3['at'])),2)
     return (GC, GC1_tot, GC2_tot, GC3_tot)
 
 #open input file
