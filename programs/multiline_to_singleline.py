@@ -5,11 +5,14 @@ Title: multiline_to_singleline.py
 Date: 2020-03-09
 Author: Alma Hurtig
 
-Description: This program takes a multiline fasta file and output it in single line format.
+Description:
+    This program takes a multiline fasta file and output it in single line format.
 
 Procedure:
 1. Open input file and output file
-2. Loop through the input fasta file, print the id-line and append all sequence lines to a list. When all sequence lines have been read print the list to the output file (and empty it for the next round).
+2. Loop through the input fasta file, print the id-line and append all sequence
+lines to a list. When all sequence lines have been read print the list to the
+output file (and empty it for the next round).
 3. Print the last sequence to the file
 
 Usage: ./multiline_to_singleline.py input_fasta output_fasta
@@ -17,6 +20,11 @@ Usage: ./multiline_to_singleline.py input_fasta output_fasta
 '''
 
 import sys
+
+if len(sys.argv) != 3:
+    error_msg ='ERROR: Exactly three input arguments are needed: Usage: ./multiline_to_singleline.py input_fasta_file output_fasta_file'
+    print(error_msg, file = sys.stderr)
+    sys.exit()
 
 with open (sys.argv[1], 'r') as multiline, open (sys.argv[2], 'w') as singleline:
     sequence = []
