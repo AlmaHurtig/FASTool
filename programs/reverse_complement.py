@@ -26,7 +26,7 @@ if len(sys.argv) != 3:
     print(error_msg, file = sys.stderr)
     sys.exit()
 
-complement = {'A':'T', 'T':'A', 'C':'G', 'G':'C'}
+complement = {'A':'T', 'T':'A', 'C':'G', 'G':'C', 'N':'N'}
 
 with open(sys.argv[1], 'r') as sequence, open(sys.argv[2], 'w') as reverse_comp_file:
     for line in sequence:
