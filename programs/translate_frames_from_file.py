@@ -23,17 +23,17 @@ value.
 variable 'reverse_strand'.
 4. Translate the nucleotide sequence and its reversed complement to protein sequences
 by looping through the nucleotides and translate one codon at the time.
-5. Return all six frames to the console.
+5. Print all six frames to the output file.
 
 Usage:
-./translate_all_six_frames.py singleline_fasta
+./translate_all_six_frames.py singleline_fasta output_file
 
 '''
 
 import sys
 
-if len(sys.argv) != 2:
-    error_msg ='Exactly two input arguments are needed: Usage: ./translate_frames_from_file.py singleline_fasta'
+if len(sys.argv) != 3:
+    error_msg ='Exactly two input arguments are needed: Usage: ./translate_frames_from_file.py singleline_fasta output_file'
     print(error_msg, file = sys.stderr)
     sys.exit()
 
@@ -43,6 +43,8 @@ with open(sys.argv[1], 'r') as input:
     for line in input:
         if not line.startswith('>'):
             nuc_seq = ''.join(line.rstrip())
+
+output_file = open(sys.argv[2], 'w')
 
 
 amino_acids = {"TTT" : "F", "CTT" : "L", "ATT" : "I", "GTT" : "V",
@@ -104,7 +106,7 @@ reverse_strand = reverse_complement(nuc_seq)
 #print('Reverse complemet:',reverse_strand)
 
 translated_seq = translate_nucleotides(nuc_seq) #print forward reading frames
-print('Forward: \n{}'.format(translated_seq))
+print('Forward: \n{}'.format(translated_seq), file=output_file)
 
 translated_seq_rev = translate_nucleotides(reverse_strand)  #print reverse reading frames
-print('Reverse: \n{}'.format(translated_seq_rev))
+print('Reverse: \n{}'.format(translated_seq_rev), file=output_file)
