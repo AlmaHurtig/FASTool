@@ -14,6 +14,8 @@ List of functions:
     'complement': create a complement of the given nucleotide sequence
     'reverse_complement': combine the two functions 'reverse' and 'complement'
     and print the reverse complement of the given DNA sequence
+    'translate_nucleotides': translate the nucleotide sequence to its
+    corresponding amino acid sequence.
 
 Procedure:
 1. Read the file to extract the sequence and assign it to a string variable.
@@ -33,36 +35,18 @@ Usage:
 import sys
 
 if len(sys.argv) != 3:
-    error_msg ='Exactly two input arguments are needed: Usage: ./translate_frames_from_file.py singleline_fasta output_file'
+    error_msg ='Exactly three input arguments are needed: Usage: ./translate_frames_from_file.py singleline_fasta output_file'
     print(error_msg, file = sys.stderr)
     sys.exit()
 
+
+output_file = open(sys.argv[2], 'w')
 
 with open(sys.argv[1], 'r') as input:
     nuc_seq = ''
     for line in input:
         if not line.startswith('>'):
             nuc_seq = ''.join(line.rstrip())
-
-output_file = open(sys.argv[2], 'w')
-
-
-amino_acids = {"TTT" : "F", "CTT" : "L", "ATT" : "I", "GTT" : "V",
-                "TTC" : "F", "CTC" : "L", "ATC" : "I", "GTC" : "V",
-                "TTA" : "L", "CTA" : "L", "ATA" : "I", "GTA" : "V",
-                "TTG" : "L", "CTG" : "L", "ATG" : "M", "GTG" : "V",
-                "TCT" : "S", "CCT" : "P", "ACT" : "T", "GCT" : "A",
-                "TCC" : "S", "CCC" : "P", "ACC" : "T", "GCC" : "A",
-                "TCA" : "S", "CCA" : "P", "ACA" : "T", "GCA" : "A",
-                "TCG" : "S", "CCG" : "P", "ACG" : "T", "GCG" : "A",
-                "TAT" : "Y", "CAT" : "H", "AAT" : "N", "GAT" : "D",
-                "TAC" : "Y", "CAC" : "H", "AAC" : "N", "GAC" : "D",
-                "TAA" : "-", "CAA" : "Q", "AAA" : "K", "GAA" : "E",
-                "TAG" : "-", "CAG" : "Q", "AAG" : "K", "GAG" : "E",
-                "TGT" : "C", "CGT" : "R", "AGT" : "S", "GGT" : "G",
-                "TGC" : "C", "CGC" : "R", "AGC" : "S", "GGC" : "G",
-                "TGA" : "-", "CGA" : "R", "AGA" : "R", "GGA" : "G",
-                "TGG" : "W", "CGG" : "R", "AGG" : "R", "GGG" : "G"}
 
 def reverse(sequence):  #get reverse sequence
     return sequence[::-1]
@@ -84,6 +68,22 @@ def translate_nucleotides(sequence):    #translate each nt in a sequence startin
     protein_sequence_2 = ''
     protein_sequence_3 = ''
     i = 0
+    amino_acids = {"TTT" : "F", "CTT" : "L", "ATT" : "I", "GTT" : "V",
+                    "TTC" : "F", "CTC" : "L", "ATC" : "I", "GTC" : "V",
+                    "TTA" : "L", "CTA" : "L", "ATA" : "I", "GTA" : "V",
+                    "TTG" : "L", "CTG" : "L", "ATG" : "M", "GTG" : "V",
+                    "TCT" : "S", "CCT" : "P", "ACT" : "T", "GCT" : "A",
+                    "TCC" : "S", "CCC" : "P", "ACC" : "T", "GCC" : "A",
+                    "TCA" : "S", "CCA" : "P", "ACA" : "T", "GCA" : "A",
+                    "TCG" : "S", "CCG" : "P", "ACG" : "T", "GCG" : "A",
+                    "TAT" : "Y", "CAT" : "H", "AAT" : "N", "GAT" : "D",
+                    "TAC" : "Y", "CAC" : "H", "AAC" : "N", "GAC" : "D",
+                    "TAA" : "-", "CAA" : "Q", "AAA" : "K", "GAA" : "E",
+                    "TAG" : "-", "CAG" : "Q", "AAG" : "K", "GAG" : "E",
+                    "TGT" : "C", "CGT" : "R", "AGT" : "S", "GGT" : "G",
+                    "TGC" : "C", "CGC" : "R", "AGC" : "S", "GGC" : "G",
+                    "TGA" : "-", "CGA" : "R", "AGA" : "R", "GGA" : "G",
+                    "TGG" : "W", "CGG" : "R", "AGG" : "R", "GGG" : "G"}
     for i in range(0, len(sequence)-2, 3): # len(seq) + 1 - 3 =-2 (1 for python, 3 for codon)
         if i < len(sequence):
             protein_sequence_1 += amino_acids[sequence[i:i+3]] # key = sequence[i:i+3] (nt + three following)
@@ -103,7 +103,6 @@ def translate_nucleotides(sequence):    #translate each nt in a sequence startin
 
 
 reverse_strand = reverse_complement(nuc_seq)
-#print('Reverse complemet:',reverse_strand)
 
 translated_seq = translate_nucleotides(nuc_seq) #print forward reading frames
 print('Forward: \n{}'.format(translated_seq), file=output_file)
